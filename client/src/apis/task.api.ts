@@ -1,10 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
 import type { Task } from "../interfaces/task.interface";
+import axiosInstance from "../utils/axiosInstance";
 
 // Gọi các API bên ngoài
 export const getAllTask = createAsyncThunk("task/getAllTask", async () => {
-  const response = axios.get("http://localhost:3000/tasks");
+  const response = axiosInstance.get("tasks");
 
   return (await response).data;
 });
@@ -13,7 +13,7 @@ export const getAllTask = createAsyncThunk("task/getAllTask", async () => {
 export const createTask = createAsyncThunk(
   "task/createTask",
   async (task: Task) => {
-    const response = await axios.post("http://localhost:3000/tasks", task);
+    const response = await axiosInstance.post("tasks", task);
 
     return response.data;
   }
@@ -23,8 +23,22 @@ export const createTask = createAsyncThunk(
 export const deleteTask = createAsyncThunk(
   "task/deleTask",
   async (id: number) => {
-    await axios.delete(`http://localhost:3000/tasks/${id}`);
+    await axiosInstance.delete(`tasks/${id}`);
 
     return id;
+  }
+);
+
+// Hàm sửa task
+export const updateTask = createAsyncThunk(
+  "task/updateTask",
+  async (updateData: { id: number; name: string }) => {
+    const { id, name } = updateData;
+
+    const response = await axiosInstance.patch(`tasks/${id}`, {
+      name,
+    });
+
+    return response.data;
   }
 );

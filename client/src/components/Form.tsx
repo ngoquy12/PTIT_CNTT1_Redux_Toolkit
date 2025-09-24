@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import type { Task } from "../interfaces/task.interface";
 import { useAppDispatch, useAppSelector } from "../hooks/useRedux";
-import { createTask } from "../apis/task.api";
+import { createTask, updateTask } from "../apis/task.api";
 
 export default function Form() {
   const dispatch = useAppDispatch();
@@ -23,8 +23,12 @@ export default function Form() {
       status: "INACTIVE",
     };
 
-    // Bắn action vào trong slice để xử lý
-    dispatch(createTask(newTask));
+    // Kiểm tra task để xác định khi nào thêm và khi nào sửa
+    if (task) {
+      dispatch(updateTask({ id: task.id || 0, name: inputValue }));
+    } else {
+      dispatch(createTask(newTask));
+    }
 
     // Xóa giá trị trong input
     setInputValue("");

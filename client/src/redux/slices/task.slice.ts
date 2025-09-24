@@ -1,5 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createTask, deleteTask, getAllTask } from "../../apis/task.api";
+import {
+  createTask,
+  deleteTask,
+  getAllTask,
+  updateTask,
+} from "../../apis/task.api";
 import type { InitialStateType } from "../../interfaces/task.interface";
 
 // Khai báo giá trị khởi tạo cho state
@@ -39,6 +44,16 @@ const taskSlice = createSlice({
       })
       .addCase(deleteTask.fulfilled, (state, action) => {
         state.data = state.data.filter((task) => task.id !== action.payload);
+      })
+      .addCase(updateTask.fulfilled, (state, action) => {
+        // Gán lại giá trị name cho task cần cập nhật
+        state.data = state.data.map((task) => {
+          if (task.id === action.payload.id) {
+            task.name = action.payload.name;
+          }
+
+          return task;
+        });
       });
   },
 });
