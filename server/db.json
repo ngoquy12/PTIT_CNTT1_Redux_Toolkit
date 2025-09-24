@@ -1,14 +1,19 @@
 {
   "tasks": [
     {
-      "id": 1,
-      "name": "Create API login",
-      "status": "ACTIVE"
+      "name": "Quét nhà",
+      "status": "INACTIVE",
+      "id": 1
     },
     {
-      "id": 2,
-      "name": "Create API Register",
-      "status": "INACTIVE"
+      "name": "Đi chơi",
+      "status": "INACTIVE",
+      "id": 2
+    },
+    {
+      "name": "Đi chơi",
+      "status": "INACTIVE",
+      "id": 3
     }
   ]
 }

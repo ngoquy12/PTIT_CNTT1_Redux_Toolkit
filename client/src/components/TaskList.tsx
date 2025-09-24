@@ -1,7 +1,9 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../hooks/useRedux";
-import { getAllTask } from "../apis/task.api";
+import { deleteTask, getAllTask } from "../apis/task.api";
 import type { Task } from "../interfaces/task.interface";
+import Form from "./Form";
+import { getTaskDetail } from "../redux/slices/task.slice";
 
 export default function TaskList() {
   const { data: tasks, error, status } = useAppSelector((store) => store.task);
@@ -19,14 +21,16 @@ export default function TaskList() {
   return (
     <div>
       {status === "pending" && <div className="loader"></div>}
-      <div>
-        <input type="text" />
-        <button>Thêm</button>
-      </div>
+      {/* Form */}
+      <Form />
       <ul>
         {tasks.map((task: Task) => (
           <li key={task.id}>
             <span>{task.name}</span>
+            <button onClick={() => dispatch(getTaskDetail(task))}>Sửa</button>
+            <button onClick={() => dispatch(deleteTask(task.id || 0))}>
+              Xóa
+            </button>
           </li>
         ))}
       </ul>
